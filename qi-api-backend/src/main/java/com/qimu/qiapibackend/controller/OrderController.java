@@ -124,7 +124,7 @@ public class OrderController {
         if (productOrderQueryRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        com.qimu.qiapibackend.model.entity.ProductOrder productOrder = new com.qimu.qiapibackend.model.entity.ProductOrder();
+        ProductOrder productOrder = new ProductOrder();
         BeanUtils.copyProperties(productOrderQueryRequest, productOrder);
         long size = productOrderQueryRequest.getPageSize();
         String orderName = productOrderQueryRequest.getOrderName();
@@ -215,7 +215,7 @@ public class OrderController {
     }
 
     /**
-     * 解析订单通知结果
+     * 解析订单通知结果（支付宝主动发订单通知过来）
      * 通知频率为15s/15s/30s/3m/10m/20m/30m/30m/30m/60m/3h/3h/3h/6h/6h - 总计 24h4m
      *
      * @param notifyData 通知数据

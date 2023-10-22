@@ -205,7 +205,7 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
     public void processingTimedOutOrders(ProductOrder productOrder) {
         String orderNo = productOrder.getOrderNo();
         try {
-            // 查询订单
+            // 查询订单（主动发出请求向支付宝查询订单信息）
             AlipayTradeQueryModel alipayTradeQueryModel = new AlipayTradeQueryModel();
             alipayTradeQueryModel.setOutTradeNo(orderNo);
             AlipayTradeQueryResponse alipayTradeQueryResponse = AliPayApi.tradeQueryToResponse(alipayTradeQueryModel);

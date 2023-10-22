@@ -6,14 +6,17 @@ import com.qimu.qiapibackend.common.ErrorCode;
 import com.qimu.qiapibackend.common.ResultUtils;
 import com.qimu.qiapibackend.constant.FileConstant;
 import com.qimu.qiapibackend.manager.CosManager;
+import com.qimu.qiapibackend.manager.MinioManager;
 import com.qimu.qiapibackend.model.enums.FileUploadBizEnum;
 import com.qimu.qiapibackend.model.enums.ImageStatusEnum;
 import com.qimu.qiapibackend.model.file.UploadFileRequest;
 import com.qimu.qiapibackend.model.vo.ImageVo;
 import com.qimu.qiapibackend.model.vo.UserVO;
 import com.qimu.qiapibackend.service.UserService;
+import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -39,6 +42,13 @@ public class FileController {
     private UserService userService;
     @Resource
     private CosManager cosManager;
+    @Resource
+    private MinioManager minioManager;
+
+    //存储普通文件
+    @Value("${minio.bucket.files}")
+    private String bucket_mediafiles;
+
 
     /**
      * 上传文件
@@ -71,11 +81,13 @@ public class FileController {
             // 上传文件
             file = File.createTempFile(filepath, null);
             multipartFile.transferTo(file);
-            cosManager.putObject(filepath, file);
+            String absolutePath = file.getAbsolutePath();
+//            cosManager.putObject(filepath, file);
+            minioManager.upload(absolutePath,file,filename);
             imageVo.setName(multipartFile.getOriginalFilename());
             imageVo.setUid(RandomStringUtils.randomAlphanumeric(8));
             imageVo.setStatus(ImageStatusEnum.SUCCESS.getValue());
-            imageVo.setUrl(FileConstant.COS_HOST + filepath);
+            imageVo.setUrl(FileConstant.Minio_HOST + "/" + bucket_mediafiles + "/" + filename);
             // 返回可访问地址
             return ResultUtils.success(imageVo);
         } catch (Exception e) {
@@ -115,7 +127,7 @@ public class FileController {
             if (fileSize > ONE_M) {
                 return "文件大小不能超过 1M";
             }
-            if (!Arrays.asList("jpeg", "jpg", "svg", "png", "webp","jiff").contains(fileSuffix)) {
+            if (!Arrays.asList("jpeg", "jpg", "svg", "png", "webp","jiff").contains(fileSuffix.toLowerCase())) {
                 return "文件类型错误";
             }
         }

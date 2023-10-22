@@ -52,13 +52,14 @@ public class PayJob {
     }
 
     /**
-     * 支付宝订单确认
+     * 支付宝订单确认（主动向支付宝发出请求查询订单信息）
      * 每20s查询一次超过5分钟过期的订单,并且未支付
      */
     @Scheduled(cron = "0/20 * * * * ?")
     public void aliPayOrderConfirm() {
         redissonLockUtil.redissonDistributedLocks("aliPayOrderConfirm", () -> {
             List<ProductOrder> orderList = orderService.getNoPayOrderByDuration(5, false, ALIPAY.getValue());
+//            List<ProductOrder> orderList = orderService.getNoPayOrderByDuration(1, false, ALIPAY.getValue());
             ProductOrderService productOrderService = orderService.getProductOrderServiceByPayType(ALIPAY.getValue());
             for (ProductOrder productOrder : orderList) {
                 String orderNo = productOrder.getOrderNo();
