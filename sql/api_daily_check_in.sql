@@ -1,0 +1,1 @@
+INSERT INTO api.daily_check_in (id, userId, description, addPoints, createTime, updateTime) VALUES (1713901359489081346, 1707236101996961794, null, 10, '2023-10-16 20:55:01', '2023-10-16 20:55:01');

@@ -85,6 +85,7 @@ public class InvokeController {
         PoisonousChickenSoupResponse poisonousChickenSoup = null;
         try {
             poisonousChickenSoup = apiService.getPoisonousChickenSoup();
+            System.out.println("poisonousChickenSoup = " + poisonousChickenSoup);
         } catch (ApiException e) {
             throw new com.qimuu.easyweb.exception.BusinessException(e.getCode(), e.getMessage());
         }

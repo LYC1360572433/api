@@ -38,7 +38,6 @@ public abstract class BaseService implements ApiService {
      */
 //    private String gatewayHost = "https://gateway.qimuu.icu/api";
     private String gatewayHost = "https://localhost:8090/api";
-
     /**
      * 检查配置
      *
