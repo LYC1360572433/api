@@ -74,17 +74,17 @@ public class AliPayAsyncResponse implements Serializable {
     /**
      * 订单金额
      */
-    private String totalAmount;
+    private Double totalAmount;
 
     /**
      * 实收金额
      */
-    private String receiptAmount;
+    private Double receiptAmount;
 
     /**
      * 付款金额
      */
-    private String buyerPayAmount;
+    private Double buyerPayAmount;
 
     /**
      * 订单标题

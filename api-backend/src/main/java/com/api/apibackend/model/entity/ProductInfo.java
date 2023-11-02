@@ -40,9 +40,9 @@ public class ProductInfo implements Serializable {
      */
     private Long userId;
     /**
-     * 金额(分)
+     * 金额
      */
-    private Integer total;
+    private Double total;
     /**
      * 产品类型（VIP-VIP会员 RECHARGE-积分充值 RECHARGEACTIVITY-充值活动）
      */

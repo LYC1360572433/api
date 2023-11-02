@@ -29,9 +29,9 @@ public class ProductInfoUpdateRequest implements Serializable {
 
 
     /**
-     * 金额(分)
+     * 金额
      */
-    private Integer total;
+    private Double total;
 
     /**
      * 增加积分个数

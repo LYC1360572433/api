@@ -1,7 +1,8 @@
 package com.api.apiinterface;
 
 
-import icu.qimuu.qiapisdk.client.QiApiClient;
+//import icu.qimuu.qiapisdk.client.QiApiClient;
+import com.lyc.apisdk.client.ApiClient;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,8 +22,8 @@ import java.text.MessageFormat;
 @Slf4j
 class ApiInterfaceApplicationTests {
     @Resource
-    private QiApiClient qiApiClient;
-
+//    private QiApiClient qiApiClient;
+    private ApiClient ApiClient;
 
     @Resource
     private JavaMailSender mailSender;

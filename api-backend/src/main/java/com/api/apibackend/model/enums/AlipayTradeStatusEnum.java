@@ -40,8 +40,8 @@ public enum AlipayTradeStatusEnum {
 
     private final PaymentStatusEnum paymentStatusEnum;
 
-    AlipayTradeStatusEnum(PaymentStatusEnum orderStatusEnum) {
-        this.paymentStatusEnum = orderStatusEnum;
+    AlipayTradeStatusEnum(PaymentStatusEnum paymentStatusEnum) {
+        this.paymentStatusEnum = paymentStatusEnum;
     }
 
     /**

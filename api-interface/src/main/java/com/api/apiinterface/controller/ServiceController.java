@@ -1,11 +1,16 @@
 package com.api.apiinterface.controller;
 
 import cn.hutool.json.JSONUtil;
-import icu.qimuu.qiapisdk.exception.ApiException;
-import icu.qimuu.qiapisdk.model.params.*;
-import icu.qimuu.qiapisdk.model.response.NameResponse;
-import icu.qimuu.qiapisdk.model.response.RandomWallpaperResponse;
-import icu.qimuu.qiapisdk.model.response.ResultResponse;
+//import icu.qimuu.qiapisdk.exception.ApiException;
+//import icu.qimuu.qiapisdk.model.params.*;
+//import icu.qimuu.qiapisdk.model.response.NameResponse;
+//import icu.qimuu.qiapisdk.model.response.RandomWallpaperResponse;
+//import icu.qimuu.qiapisdk.model.response.ResultResponse;
+import com.lyc.apisdk.exception.ApiException;
+import com.lyc.apisdk.model.params.*;
+import com.lyc.apisdk.model.response.NameResponse;
+import com.lyc.apisdk.model.response.RandomWallpaperResponse;
+import com.lyc.apisdk.model.response.ResultResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

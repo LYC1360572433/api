@@ -10,6 +10,8 @@ import com.github.binarywang.wxpay.bean.result.WxPayOrderQueryV3Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 /**
  * @Description: 支付信息服务impl
  */
@@ -24,7 +26,7 @@ public class PaymentInfoServiceImpl extends ServiceImpl<PaymentInfoMapper, Payme
         String tradeStateDesc = paymentInfoVo.getTradeStateDesc();
         String successTime = paymentInfoVo.getSuccessTime();
         WxPayOrderQueryV3Result.Payer payer = paymentInfoVo.getPayer();
-        WxPayOrderQueryV3Result.Amount amount = paymentInfoVo.getAmount();
+        PaymentInfoVo.Amount amount = paymentInfoVo.getAmount();
 
         PaymentInfo paymentInfo = new PaymentInfo();
         paymentInfo.setOrderNo(paymentInfoVo.getOutTradeNo());

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @Description: 产品订单查询请求
@@ -22,9 +23,9 @@ public class ProductOrderQueryRequest extends PageRequest implements Serializabl
      */
     private String orderNo;
     /**
-     * 金额(分)
+     * 金额
      */
-    private Integer total;
+    private Double total;
 
     /**
      * 接口订单状态(SUCCESS：支付成功

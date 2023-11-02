@@ -1,8 +1,8 @@
 <p align="center">
     <img src=https://img.qimuu.icu/typory/logo.gif width=188/>
 </p>
-<h1 align="center">Qi-API 接口开放平台</h1>
-<p align="center"><strong>Qi-API 接口开放平台是一个为用户和开发者提供全面API接口调用服务的平台 🛠</strong></p>
+<h1 align="center">API 接口开放平台</h1>
+<p align="center"><strong>API 接口开放平台是一个为用户和开发者提供全面API接口调用服务的平台 🛠</strong></p>
 <div align="center">
 <a target="_blank" href="https://github.com/qimu666/qi-api">
     <img alt="" src="https://github.com/qimu666/qi-api/badge/star.svg?theme=gvp"/>

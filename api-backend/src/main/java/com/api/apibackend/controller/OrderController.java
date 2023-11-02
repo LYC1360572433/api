@@ -129,7 +129,7 @@ public class OrderController {
         long size = productOrderQueryRequest.getPageSize();
         String orderName = productOrderQueryRequest.getOrderName();
         String orderNo = productOrderQueryRequest.getOrderNo();
-        Integer total = productOrderQueryRequest.getTotal();
+        Double total = productOrderQueryRequest.getTotal();
         String status = productOrderQueryRequest.getStatus();
         String productInfo = productOrderQueryRequest.getProductInfo();
         String payType = productOrderQueryRequest.getPayType();
@@ -147,7 +147,8 @@ public class OrderController {
 
         queryWrapper.like(StringUtils.isNotBlank(orderName), "orderName", orderName)
                 .like(StringUtils.isNotBlank(productInfo), "productInfo", productInfo)
-                .eq("userId", userId)
+                .eq(!userService.isAdmin(request),"userId", userId)
+//                .eq("userId", userId)
                 .eq(StringUtils.isNotBlank(orderNo), "orderNo", orderNo)
                 .eq(StringUtils.isNotBlank(status), "status", status)
                 .eq(StringUtils.isNotBlank(payType), "payType", payType)
@@ -158,7 +159,7 @@ public class OrderController {
         Page<ProductOrder> productOrderPage = productOrderService.page(new Page<>(current, size), queryWrapper);
         OrderVo orderVo = new OrderVo();
         BeanUtils.copyProperties(productOrderPage, orderVo);
-        // 处理订单信息,
+        // 处理订单信息
         List<ProductOrderVo> productOrders = productOrderPage.getRecords().stream().map(this::formatProductOrderVo).collect(Collectors.toList());
         if (productType != null) {
             productOrders = productOrders.stream().filter(item -> item.getProductType().equals(productType)).collect(Collectors.toList());
@@ -238,9 +239,9 @@ public class OrderController {
         ProductInfo prodInfo = JSONUtil.toBean(productOrder.getProductInfo(), ProductInfo.class);
         productOrderVo.setDescription(prodInfo.getDescription());
         productOrderVo.setProductType(prodInfo.getProductType());
-        String voTotal = String.valueOf(prodInfo.getTotal());
-        BigDecimal total = new BigDecimal(voTotal).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
-        productOrderVo.setTotal(total.toString());
+        Double total = prodInfo.getTotal();
+//        BigDecimal total = new BigDecimal(voTotal).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
+        productOrderVo.setTotal(total);
         return productOrderVo;
     }
 }

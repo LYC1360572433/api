@@ -22,10 +22,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import icu.qimuu.qiapisdk.client.QiApiClient;
-import icu.qimuu.qiapisdk.model.request.CurrencyRequest;
-import icu.qimuu.qiapisdk.model.response.ResultResponse;
-import icu.qimuu.qiapisdk.service.ApiService;
+//import icu.qimuu.qiapisdk.client.QiApiClient;
+//import icu.qimuu.qiapisdk.model.request.CurrencyRequest;
+//import icu.qimuu.qiapisdk.model.response.ResultResponse;
+//import icu.qimuu.qiapisdk.service.ApiService;
+
+import com.lyc.apisdk.client.ApiClient;
+import com.lyc.apisdk.model.request.CurrencyRequest;
+import com.lyc.apisdk.model.response.ResultResponse;
+import com.lyc.apisdk.service.ApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -391,12 +396,14 @@ public class InterfaceInfoController {
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
         try {
-            QiApiClient qiApiClient = new QiApiClient(accessKey, secretKey);
+//            QiApiClient qiApiClient = new QiApiClient(accessKey, secretKey);
+            ApiClient ApiClient = new ApiClient(accessKey, secretKey);
             CurrencyRequest currencyRequest = new CurrencyRequest();
             currencyRequest.setMethod(interfaceInfo.getMethod());
             currencyRequest.setPath(interfaceInfo.getUrl());
             currencyRequest.setRequestParams(params);
-            ResultResponse response = apiService.request(qiApiClient, currencyRequest);
+//            ResultResponse response = apiService.request(qiApiClient, currencyRequest);
+            ResultResponse response = apiService.request(ApiClient, currencyRequest);
             return ResultUtils.success(response.getData());
         } catch (Exception e) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, e.getMessage());

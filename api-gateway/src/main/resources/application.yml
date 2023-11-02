@@ -1,6 +1,13 @@
 server:
   port: 8090
+#spring:
+#  config:
+#    activate:
+#      on-profile:
+#        - dev
 spring:
+  profiles:
+    active: dev
   cloud:
     gateway:
       routes:

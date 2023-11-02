@@ -24,7 +24,7 @@ public class ProductInfoServiceImpl extends ServiceImpl<ProductInfoMapper, Produ
         }
         String name = productInfo.getName();
         String description = productInfo.getDescription();
-        Integer total = productInfo.getTotal();
+        Double total = productInfo.getTotal();
         Date expirationTime = productInfo.getExpirationTime();
         String productType = productInfo.getProductType();
         Integer addPoints = productInfo.getAddPoints();

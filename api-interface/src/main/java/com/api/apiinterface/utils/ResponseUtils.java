@@ -2,10 +2,12 @@ package com.api.apiinterface.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lyc.apisdk.exception.ApiException;
+import com.lyc.apisdk.model.response.ResultResponse;
 import com.qimuu.easyweb.common.ErrorCode;
 import com.qimuu.easyweb.exception.BusinessException;
-import icu.qimuu.qiapisdk.exception.ApiException;
-import icu.qimuu.qiapisdk.model.response.ResultResponse;
+//import icu.qimuu.qiapisdk.exception.ApiException;
+//import icu.qimuu.qiapisdk.model.response.ResultResponse;
 
 import java.util.Map;
 import static com.api.apiinterface.utils.RequestUtils.get;

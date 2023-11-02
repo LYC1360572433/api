@@ -53,9 +53,9 @@ public class ProductOrder implements Serializable {
     private String productInfo;
 
     /**
-     * 金额(分)
+     * 金额
      */
-    private Integer total;
+    private Double total;
 
     /**
      * 商品id

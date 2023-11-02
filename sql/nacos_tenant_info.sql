@@ -1,0 +1,2 @@
+INSERT INTO nacos.tenant_info (id, kp, tenant_id, tenant_name, tenant_desc, create_source, gmt_create, gmt_modified) VALUES (1, '1', 'nero', 'nero', 'nero', 'nacos', 1695870569136, 1695870569136);
+INSERT INTO nacos.tenant_info (id, kp, tenant_id, tenant_name, tenant_desc, create_source, gmt_create, gmt_modified) VALUES (2, '1', 'qi', 'qi', 'qi', 'nacos', 1695870577750, 1695870577750);

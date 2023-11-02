@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.api.apibackend.config.EmailConfig;
 import com.api.apibackend.constant.PayConstant;
 import com.api.apibackend.exception.BusinessException;
@@ -108,7 +109,7 @@ public class WxOrderServiceImpl extends ServiceImpl<ProductOrderMapper, ProductO
         }
         ProductOrderVo productOrderVo = new ProductOrderVo();
         BeanUtils.copyProperties(oldOrder, productOrderVo);
-        productOrderVo.setTotal(oldOrder.getTotal().toString());
+        productOrderVo.setTotal(oldOrder.getTotal());
         productOrderVo.setProductInfo(JSONUtil.toBean(oldOrder.getProductInfo(), ProductInfo.class));
         return productOrderVo;
     }
@@ -145,7 +146,7 @@ public class WxOrderServiceImpl extends ServiceImpl<ProductOrderMapper, ProductO
         // 构建支付请求
         WxPayUnifiedOrderV3Request wxPayRequest = new WxPayUnifiedOrderV3Request();
         WxPayUnifiedOrderV3Request.Amount amount = new WxPayUnifiedOrderV3Request.Amount();
-        amount.setTotal(productOrder.getTotal());
+        amount.setTotal(productOrder.getTotal().intValue());
         wxPayRequest.setAmount(amount);
         wxPayRequest.setDescription(productOrder.getOrderName());
         // 设置订单的过期时间为5分钟
@@ -170,7 +171,7 @@ public class WxOrderServiceImpl extends ServiceImpl<ProductOrderMapper, ProductO
         ProductOrderVo productOrderVo = new ProductOrderVo();
         BeanUtils.copyProperties(productOrder, productOrderVo);
         productOrderVo.setProductInfo(productInfo);
-        productOrderVo.setTotal(productInfo.getTotal().toString());
+        productOrderVo.setTotal(productInfo.getTotal());
         return productOrderVo;
     }
 
@@ -252,8 +253,10 @@ public class WxOrderServiceImpl extends ServiceImpl<ProductOrderMapper, ProductO
                 PaymentInfoVo paymentInfoVo = new PaymentInfoVo();
                 BeanUtils.copyProperties(wxPayOrderQueryV3Result, paymentInfoVo);
                 paymentInfoService.createPaymentInfo(paymentInfoVo);
-                // 更新活动表
-                saveRechargeActivity(productOrder);
+                if ("RECHARGEACTIVITY".equals(JSONObject.parseObject(productOrder.getProductInfo(), ProductInfo.class).getProductType())) {
+                    // 更新活动表
+                    saveRechargeActivity(productOrder);
+                }
                 sendPaySuccessEmail(productOrder);
                 log.info("超时订单{},状态已更新", orderNo);
             }
@@ -302,16 +305,19 @@ public class WxOrderServiceImpl extends ServiceImpl<ProductOrderMapper, ProductO
                     BeanUtils.copyProperties(notifyResult, paymentInfoVo);
                     WxPayOrderQueryV3Result.Payer payer = new WxPayOrderQueryV3Result.Payer();
                     payer.setOpenid(notifyResult.getPayer().getOpenid());
-                    WxPayOrderQueryV3Result.Amount amount = new WxPayOrderQueryV3Result.Amount();
-                    amount.setTotal(notifyResult.getAmount().getTotal());
-                    amount.setPayerTotal(notifyResult.getAmount().getPayerTotal());
+                    PaymentInfoVo.Amount amount = new PaymentInfoVo.Amount();
+                    amount.setTotal(Double.valueOf(notifyResult.getAmount().getTotal()));
+                    amount.setPayerTotal(Double.valueOf(notifyResult.getAmount().getPayerTotal()));
                     amount.setCurrency(notifyResult.getAmount().getCurrency());
                     amount.setPayerCurrency(notifyResult.getAmount().getPayerCurrency());
                     paymentInfoVo.setPayer(payer);
                     paymentInfoVo.setAmount(amount);
                     boolean paymentResult = paymentInfoService.createPaymentInfo(paymentInfoVo);
-                    // 更新活动表
-                    boolean rechargeActivity = saveRechargeActivity(productOrder);
+                    boolean rechargeActivity = true;
+                    if ("RECHARGEACTIVITY".equals(JSONObject.parseObject(productOrder.getProductInfo(), ProductInfo.class).getProductType())) {
+                        // 更新活动表
+                        rechargeActivity = saveRechargeActivity(productOrder);
+                    }
                     if (paymentResult && updateOrderStatus && addWalletBalance && rechargeActivity) {
                         log.info("【支付回调通知处理成功】");
                         // 发送邮件
@@ -356,7 +362,7 @@ public class WxOrderServiceImpl extends ServiceImpl<ProductOrderMapper, ProductO
         if (StringUtils.isNotBlank(user.getEmail())) {
             try {
                 new EmailUtil().sendPaySuccessEmail(user.getEmail(), mailSender, emailConfig, productOrder.getOrderName(),
-                        String.valueOf(new BigDecimal(productOrder.getTotal()).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP)));
+                        String.valueOf(productOrder.getTotal()));
                 log.info("发送邮件：{}，成功", user.getEmail());
             } catch (Exception e) {
                 log.error("发送邮件：{}，失败：{}", user.getEmail(), e.getMessage());

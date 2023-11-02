@@ -41,7 +41,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.api.apicommon.model.emums.UserAccountStatusEnum.BAN;
-import static icu.qimuu.qiapisdk.utils.SignUtils.getSign;
+//import static icu.qimuu.qiapisdk.utils.SignUtils.getSign;
+import static com.lyc.apisdk.utils.SignUtils.getSign;
 
 
 /**
@@ -91,9 +92,9 @@ public class GatewayGlobalFilter implements GlobalFilter, Ordered {
     private Mono<Void> verifyParameters(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         // 请求白名单
-        if (!WHITE_HOST_LIST.contains(Objects.requireNonNull(request.getRemoteAddress()).getHostString())) {
-            throw new BusinessException(ErrorCode.FORBIDDEN_ERROR);
-        }
+//        if (!WHITE_HOST_LIST.contains(Objects.requireNonNull(request.getRemoteAddress()).getHostString())) {
+//            throw new BusinessException(ErrorCode.FORBIDDEN_ERROR);
+//        }
 
         HttpHeaders headers = request.getHeaders();
         String body = headers.getFirst("body");

@@ -24,9 +24,9 @@ public class ProductInfoAddRequest implements Serializable {
     private String description;
 
     /**
-     * 金额(分)
+     * 金额
      */
-    private Integer total;
+    private Double total;
 
     /**
      * 增加积分个数

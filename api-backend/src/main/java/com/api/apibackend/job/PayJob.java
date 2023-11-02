@@ -53,8 +53,7 @@ public class PayJob {
     @Scheduled(cron = "0/20 * * * * ?")
     public void aliPayOrderConfirm() {
         redissonLockUtil.redissonDistributedLocks("aliPayOrderConfirm", () -> {
-            List<ProductOrder> orderList = orderService.getNoPayOrderByDuration(5, false, PayTypeStatusEnum.ALIPAY.getValue());
-//            List<ProductOrder> orderList = orderService.getNoPayOrderByDuration(1, false, ALIPAY.getValue());
+            List<ProductOrder> orderList = orderService.getNoPayOrderByDuration(1, false, PayTypeStatusEnum.ALIPAY.getValue());
             ProductOrderService productOrderService = orderService.getProductOrderServiceByPayType(PayTypeStatusEnum.ALIPAY.getValue());
             for (ProductOrder productOrder : orderList) {
                 String orderNo = productOrder.getOrderNo();

@@ -4,6 +4,8 @@ import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.domain.AlipayTradeCloseModel;
 import com.alipay.api.domain.AlipayTradePagePayModel;
@@ -55,6 +57,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -97,7 +100,7 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
         ProductOrderVo productOrderVo = new ProductOrderVo();
         BeanUtils.copyProperties(oldOrder, productOrderVo);
         productOrderVo.setProductInfo(JSONUtil.toBean(oldOrder.getProductInfo(), ProductInfo.class));
-        productOrderVo.setTotal(oldOrder.getTotal().toString());
+        productOrderVo.setTotal(oldOrder.getTotal());
         return productOrderVo;
     }
 
@@ -125,7 +128,7 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
         productOrder.setAddPoints(productInfo.getAddPoints());
 
         boolean saveResult = this.save(productOrder);
-        if (!saveResult){
+        if (!saveResult) {
             return new ProductOrderVo();
         }
         AlipayTradePagePayModel model = new AlipayTradePagePayModel();
@@ -133,8 +136,8 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
         model.setSubject(productInfo.getName());
         model.setProductCode("FAST_INSTANT_TRADE_PAY");
         // 金额四舍五入
-        BigDecimal scaledAmount = new BigDecimal(productInfo.getTotal()).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
-        model.setTotalAmount(String.valueOf(scaledAmount));
+//        BigDecimal scaledAmount = new BigDecimal(productInfo.getTotal()).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
+        model.setTotalAmount(String.valueOf(productInfo.getTotal()));
         model.setBody(productInfo.getDescription());
 
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
@@ -158,7 +161,7 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
         ProductOrderVo productOrderVo = new ProductOrderVo();
         BeanUtils.copyProperties(productOrder, productOrderVo);
         productOrderVo.setProductInfo(productInfo);
-        productOrderVo.setTotal(productInfo.getTotal().toString());
+        productOrderVo.setTotal(productInfo.getTotal());
         return productOrderVo;
     }
 
@@ -216,6 +219,7 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
                 return;
             }
             String tradeStatus = AlipayTradeStatusEnum.findByName(alipayTradeQueryResponse.getTradeStatus()).getPaymentStatusEnum().getValue();
+
             // 订单没有支付就关闭订单,更新本地订单状态
             if (tradeStatus.equals(PaymentStatusEnum.NOTPAY.getValue()) || tradeStatus.equals(PaymentStatusEnum.CLOSED.getValue())) {
                 closedOrderByOrderNo(orderNo);
@@ -240,9 +244,9 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
                 WxPayOrderQueryV3Result.Payer payer = new WxPayOrderQueryV3Result.Payer();
                 payer.setOpenid(alipayTradeQueryResponse.getBuyerOpenId());
                 paymentInfoVo.setPayer(payer);
-                WxPayOrderQueryV3Result.Amount amount = new WxPayOrderQueryV3Result.Amount();
-                amount.setTotal(new BigDecimal(alipayTradeQueryResponse.getTotalAmount()).multiply(new BigDecimal("100")).intValue());
-                amount.setPayerTotal(new BigDecimal(alipayTradeQueryResponse.getReceiptAmount()).multiply(new BigDecimal("100")).intValue());
+                PaymentInfoVo.Amount amount = new PaymentInfoVo.Amount();
+                amount.setTotal(Double.valueOf(alipayTradeQueryResponse.getTotalAmount()));
+                amount.setPayerTotal(Double.valueOf(alipayTradeQueryResponse.getReceiptAmount()));
                 amount.setCurrency(alipayTradeQueryResponse.getPayCurrency());
                 amount.setPayerCurrency(alipayTradeQueryResponse.getPayCurrency());
                 paymentInfoVo.setAmount(amount);
@@ -250,8 +254,10 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
                 if (!updateOrderStatus & !addWalletBalance & !paymentResult) {
                     throw new BusinessException(ErrorCode.OPERATION_ERROR);
                 }
-                // 更新活动表
-                saveRechargeActivity(productOrder);
+                if ("RECHARGEACTIVITY".equals(JSONObject.parseObject(productOrder.getProductInfo(), ProductInfo.class).getProductType())) {
+                    // 更新活动表
+                    saveRechargeActivity(productOrder);
+                }
                 sendSuccessEmail(productOrder, alipayTradeQueryResponse.getTotalAmount());
                 log.info("超时订单{},更新成功", orderNo);
             }
@@ -316,8 +322,10 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
             return result;
         }
         // 2.判断 total_amount 是否确实为该订单的实际金额（即商家订单创建时的金额）。
-        int totalAmount = new BigDecimal(response.getTotalAmount()).multiply(new BigDecimal("100")).intValue();
-        if (totalAmount != productOrder.getTotal()) {
+//        int totalAmount = new BigDecimal(response.getTotalAmount()).multiply(new BigDecimal("100")).intValue();
+        Double totalAmount = response.getTotalAmount();
+
+        if (!new BigDecimal(Double.toString(totalAmount)).equals(new BigDecimal(Double.toString(productOrder.getTotal())))) {
             log.error("订单金额不一致");
             return result;
         }
@@ -367,19 +375,22 @@ public class AlipayOrderServiceImpl extends ServiceImpl<ProductOrderMapper, Prod
         WxPayOrderQueryV3Result.Payer payer = new WxPayOrderQueryV3Result.Payer();
         payer.setOpenid(response.getBuyerId());
         paymentInfoVo.setPayer(payer);
-        WxPayOrderQueryV3Result.Amount amount = new WxPayOrderQueryV3Result.Amount();
-        amount.setTotal(new BigDecimal(response.getTotalAmount()).multiply(new BigDecimal("100")).intValue());
-        amount.setPayerTotal(new BigDecimal(response.getReceiptAmount()).multiply(new BigDecimal("100")).intValue());
+        PaymentInfoVo.Amount amount = new PaymentInfoVo.Amount();
+        amount.setTotal(Double.valueOf(response.getTotalAmount()));
+        amount.setPayerTotal(Double.valueOf(response.getReceiptAmount()));
         amount.setCurrency("CNY");
         amount.setPayerCurrency("CNY");
         paymentInfoVo.setAmount(amount);
         boolean paymentResult = paymentInfoService.createPaymentInfo(paymentInfoVo);
-        // 更新活动表
-        boolean rechargeActivity = saveRechargeActivity(productOrder);
+        boolean rechargeActivity = true;
+        if ("RECHARGEACTIVITY".equals(JSONObject.parseObject(productOrder.getProductInfo(), ProductInfo.class).getProductType())) {
+            // 更新活动表
+            rechargeActivity = saveRechargeActivity(productOrder);
+        }
         if (paymentResult && updateOrderStatus && addWalletBalance && rechargeActivity) {
             log.info("【支付回调通知处理成功】");
             // 发送邮件
-            sendSuccessEmail(productOrder, response.getTotalAmount());
+            sendSuccessEmail(productOrder, String.valueOf(response.getTotalAmount()));
             return "success";
         }
         throw new BusinessException(ErrorCode.OPERATION_ERROR);

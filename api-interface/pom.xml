@@ -25,9 +25,13 @@
             <groupId>icu.qimuu</groupId>
             <artifactId>EasyWeb</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>icu.qimuu</groupId>-->
+<!--            <artifactId>qi-api-sdk</artifactId>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>icu.qimuu</groupId>
-            <artifactId>qi-api-sdk</artifactId>
+            <groupId>com.lyc</groupId>
+            <artifactId>api-sdk</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

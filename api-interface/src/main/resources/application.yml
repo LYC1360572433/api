@@ -2,13 +2,18 @@ server:
   port: 8081
   servlet:
     context-path: /api
+#spring:
+#  config:
+#    activate:
+#      on-profile:
+#        - dev
 spring:
   profiles:
     active: dev
   mvc:
     path match:
       matching-strategy: ant_path_matcher
-qi:
+lyc:
   api:
     client:
       access-key: 7052a8594339a519e0ba5eb04a267a60

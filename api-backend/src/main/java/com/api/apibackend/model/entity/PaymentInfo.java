@@ -57,7 +57,7 @@ public class PaymentInfo implements Serializable {
     /**
      * 用户支付金额
      */
-    private Integer payerTotal;
+    private Double payerTotal;
 
     /**
      * 货币类型
@@ -77,7 +77,7 @@ public class PaymentInfo implements Serializable {
     /**
      * 总金额(分)
      */
-    private Integer total;
+    private Double total;
 
     /**
      * 创建时间

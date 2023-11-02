@@ -1,8 +1,10 @@
 package com.api.apiinterface.utils;
 
 import cn.hutool.http.HttpRequest;
-import icu.qimuu.qiapisdk.exception.ApiException;
-import icu.qimuu.qiapisdk.exception.ErrorCode;
+//import icu.qimuu.qiapisdk.exception.ApiException;
+//import icu.qimuu.qiapisdk.exception.ErrorCode;
+import com.lyc.apisdk.exception.ApiException;
+import com.lyc.apisdk.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;

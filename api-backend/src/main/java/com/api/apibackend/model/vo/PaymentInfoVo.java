@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -40,9 +41,60 @@ public class PaymentInfoVo {
 
     private WxPayOrderQueryV3Result.Payer payer;
     @SerializedName(value = "amount")
-    private WxPayOrderQueryV3Result.Amount amount;
+    private Amount amount;
     @SerializedName(value = "scene_info")
     private WxPayOrderQueryV3Result.SceneInfo sceneInfo;
     @SerializedName(value = "promotion_detail")
     private List<WxPayOrderQueryV3Result.PromotionDetail> promotionDetails;
+
+    public static class Amount implements Serializable {
+        private static final long serialVersionUID = 1L;
+        @SerializedName("total")
+        private Double total;
+        @SerializedName("payer_total")
+        private Double payerTotal;
+        @SerializedName("currency")
+        private String currency;
+        @SerializedName("payer_currency")
+        private String payerCurrency;
+
+        public Double getTotal() {
+            return this.total;
+        }
+
+        public Double getPayerTotal() {
+            return this.payerTotal;
+        }
+
+        public String getCurrency() {
+            return this.currency;
+        }
+
+        public String getPayerCurrency() {
+            return this.payerCurrency;
+        }
+
+        public void setTotal(Double total) {
+            this.total = total;
+        }
+
+        public void setPayerTotal(Double payerTotal) {
+            this.payerTotal = payerTotal;
+        }
+
+        public void setCurrency(String currency) {
+            this.currency = currency;
+        }
+
+        public void setPayerCurrency(String payerCurrency) {
+            this.payerCurrency = payerCurrency;
+        }
+
+        public String toString() {
+            return "WxPayOrderQueryV3Result.Amount(total=" + this.getTotal() + ", payerTotal=" + this.getPayerTotal() + ", currency=" + this.getCurrency() + ", payerCurrency=" + this.getPayerCurrency() + ")";
+        }
+
+        public Amount() {
+        }
+    }
 }

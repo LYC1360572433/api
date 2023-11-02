@@ -126,7 +126,7 @@ public class FileController {
             if (fileSize > ONE_M) {
                 return "文件大小不能超过 1M";
             }
-            if (!Arrays.asList("jpeg", "jpg", "svg", "png", "webp","jiff").contains(fileSuffix.toLowerCase())) {
+            if (!Arrays.asList("jpeg", "jpg", "svg", "png", "webp","jiff","gif").contains(fileSuffix.toLowerCase())) {
                 return "文件类型错误";
             }
         }

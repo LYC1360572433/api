@@ -193,7 +193,7 @@ public class ProductInfoController {
         String description = productInfoQueryRequest.getDescription();
         String productType = productInfoQueryRequest.getProductType();
         Integer addPoints = productInfoQueryRequest.getAddPoints();
-        Integer total = productInfoQueryRequest.getTotal();
+        Double total = productInfoQueryRequest.getTotal();
         // 限制爬虫
         if (size > 50) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
