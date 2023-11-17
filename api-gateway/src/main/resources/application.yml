@@ -1,31 +1,17 @@
 server:
   port: 8090
-#spring:
-#  config:
-#    activate:
-#      on-profile:
-#        - dev
 spring:
   profiles:
-    active: dev
+    active: prod
   cloud:
     gateway:
       routes:
         - id: api-interface
-          uri: http://localhost:8081
           predicates:
             - Path=/api/**
   redis:
     port: 6379
-    host: localhost
-    database: 0
-logging:
-  level:
-    org:
-      springframework:
-        cloud:
-          gateway: trace
-
+    database: 3
 dubbo:
   application:
     qosEnable: false
@@ -36,5 +22,4 @@ dubbo:
     port: -1
   registry:
     id: nacos-registry
-    address: nacos://localhost:8848
-    parameters[namespace]: qi
+    parameters[namespace]: lyc

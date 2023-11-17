@@ -306,7 +306,6 @@ public class UserController {
         // 参数校验
         userService.validUser(user, false);
 
-
         LambdaUpdateWrapper<User> userLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         userLambdaUpdateWrapper.eq(User::getId, user.getId());
 

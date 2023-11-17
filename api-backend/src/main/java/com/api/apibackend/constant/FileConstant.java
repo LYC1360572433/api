@@ -13,5 +13,5 @@ public interface FileConstant {
     /**
      * Minio 访问地址
      */
-    String Minio_HOST = "http://47.115.227.118:9000";
+    String Minio_HOST = "http://120.79.155.15:9000";
 }

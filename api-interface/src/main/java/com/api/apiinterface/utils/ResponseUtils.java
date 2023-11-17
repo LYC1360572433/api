@@ -4,10 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lyc.apisdk.exception.ApiException;
 import com.lyc.apisdk.model.response.ResultResponse;
-import com.qimuu.easyweb.common.ErrorCode;
-import com.qimuu.easyweb.exception.BusinessException;
-//import icu.qimuu.qiapisdk.exception.ApiException;
-//import icu.qimuu.qiapisdk.model.response.ResultResponse;
+import com.api.apicommon.common.ErrorCode;
+import com.api.apicommon.exception.BusinessException;
 
 import java.util.Map;
 import static com.api.apiinterface.utils.RequestUtils.get;

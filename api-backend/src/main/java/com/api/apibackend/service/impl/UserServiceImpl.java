@@ -497,6 +497,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String userPassword = user.getUserPassword();
         Integer balance = user.getBalance();
 
+
         // 创建时，所有参数必须非空
         if (add) {
             if (StringUtils.isAnyBlank(userAccount, userPassword)) {

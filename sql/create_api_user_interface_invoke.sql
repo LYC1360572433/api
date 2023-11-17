@@ -9,7 +9,7 @@ create table user_interface_invoke
     status       tinyint  default 0                 not null comment '调用状态（0- 正常 1- 封号）',
     createTime   datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     updateTime   datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
-    isDelete     tinyint  default 0                 not null comment '是否删除'
+    isDelete     tinyint  default 0                 null comment '是否删除'
 )
     comment '用户接口调用表';
 

@@ -240,7 +240,7 @@ public class OrderController {
         productOrderVo.setDescription(prodInfo.getDescription());
         productOrderVo.setProductType(prodInfo.getProductType());
         Double total = prodInfo.getTotal();
-//        BigDecimal total = new BigDecimal(voTotal).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
+//        total = BigDecimal.valueOf(total).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP).doubleValue();
         productOrderVo.setTotal(total);
         return productOrderVo;
     }

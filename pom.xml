@@ -18,9 +18,7 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <knife4j-spring-boot-starter.version>3.0.3</knife4j-spring-boot-starter.version>
         <junit.version>4.13.2</junit.version>
-        <EasyWeb.version>0.0.5</EasyWeb.version>
-<!--        <qi-api-sdk.version>0.0.3</qi-api-sdk.version>-->
-<!--        <qi-api-sdk.version>0.0.4</qi-api-sdk.version>-->
+        <EasyWeb.version>0.0.1</EasyWeb.version>
         <hutool-all.version>5.8.16</hutool-all.version>
         <redisson.version>3.17.5</redisson.version>
         <weixin-java-pay.version>4.5.0</weixin-java-pay.version>
@@ -28,7 +26,7 @@
         <cos_api.version>5.6.97</cos_api.version>
         <dubbo.version>2.7.8</dubbo.version>
         <api-common.version>0.0.1</api-common.version>
-        <api-sdk.version>0.0.4</api-sdk.version>
+        <api-sdk.version>0.0.1</api-sdk.version>
         <nacos-client.version>1.4.1</nacos-client.version>
     </properties>
 
@@ -37,7 +35,6 @@
         <module>api-interface</module>
         <module>api-gateway</module>
         <module>api-common</module>
-        <module>api-sdk-master</module>
     </modules>
 
     <dependencyManagement>
@@ -104,20 +101,15 @@
                 <version>${knife4j-spring-boot-starter.version}</version>
             </dependency>
             <dependency>
-                <groupId>icu.qimuu</groupId>
+                <groupId>io.github.lyc1360572433</groupId>
                 <artifactId>EasyWeb</artifactId>
                 <version>${EasyWeb.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.lyc</groupId>
+                <groupId>io.github.lyc1360572433</groupId>
                 <artifactId>api-sdk</artifactId>
                 <version>${api-sdk.version}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>icu.qimuu</groupId>-->
-<!--                <artifactId>qi-api-sdk</artifactId>-->
-<!--                <version>${qi-api-sdk.version}</version>-->
-<!--            </dependency>-->
             <!-- https://mvnrepository.com/artifact/junit/junit -->
             <dependency>
                 <groupId>junit</groupId>

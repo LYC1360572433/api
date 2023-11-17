@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: api-interface
+          uri: http://localhost:8081
+          predicates:
+              - Path=/api/**
+  redis:
+    host: localhost
+    database: 3
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: debug
+dubbo:
+  registry:
+    address: nacos://localhost:8848

@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/api
+    username: root
+    password: root
+  redis:
+    host: localhost
+# 微信支付配置
+wx:
+  pay:
+    notifyUrl: http://localhost:8000/api/order/notify/order
+# 支付宝支付配置
+alipay:
+  appId: 9021000122688504
+  sellerId: 2088721004142050
+#  本地需要配置内网穿透
+  notifyUrl: http://serjm2.natappfree.cc/api/order/notify/order
+  returnUrl: http://localhost:8000/account/center
+dubbo:
+  registry:
+    address: nacos://localhost:8848
+
+lyc:
+  api:
+    client:
+#       本地网关地址，可修改为自己的网关，用于本地测试，或者线上网关地址等
+      host: http://localhost:8090/api
+
+minio:
+  endpoint: http://localhost:9000

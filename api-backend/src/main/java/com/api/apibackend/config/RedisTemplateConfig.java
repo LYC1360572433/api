@@ -12,6 +12,7 @@ public class RedisTemplateConfig {
 
     /**
      * 定义redisTemplate对象，用于访问redis,设置redis序列化方式
+     *
      * @param redisConnectionFactory redis的链接工厂，从Spring容器中获取
      * @return 自行配置好的redis访问对象
      */

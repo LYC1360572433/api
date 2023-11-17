@@ -74,12 +74,8 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>icu.qimuu</groupId>-->
-<!--            <artifactId>qi-api-sdk</artifactId>-->
-<!--        </dependency>-->
         <dependency>
-            <groupId>com.lyc</groupId>
+            <groupId>io.github.lyc1360572433</groupId>
             <artifactId>api-sdk</artifactId>
         </dependency>
         <dependency>

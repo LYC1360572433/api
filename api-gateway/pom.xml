@@ -33,12 +33,8 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>icu.qimuu</groupId>-->
-<!--            <artifactId>qi-api-sdk</artifactId>-->
-<!--        </dependency>-->
         <dependency>
-            <groupId>com.lyc</groupId>
+            <groupId>io.github.lyc1360572433</groupId>
             <artifactId>api-sdk</artifactId>
         </dependency>
         <dependency>

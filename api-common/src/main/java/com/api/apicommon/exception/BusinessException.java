@@ -1,29 +1,26 @@
-package com.lyc.apisdk.exception;
+package com.api.apicommon.exception;
 
+import com.api.apicommon.common.ErrorCode;
 
 /**
  * @Description: 自定义异常类
  */
-public class ApiException extends Exception {
+public class BusinessException extends RuntimeException {
 
     private static final long serialVersionUID = 2942420535500634982L;
-    private int code;
+    private final int code;
 
-    public ApiException(int code, String message) {
+    public BusinessException(int code, String message) {
         super(message);
         this.code = code;
     }
 
-    public ApiException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public ApiException(ErrorCode errorCode) {
+    public BusinessException(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.code = errorCode.getCode();
     }
 
-    public ApiException(ErrorCode errorCode, String message) {
+    public BusinessException(ErrorCode errorCode, String message) {
         super(message);
         this.code = errorCode.getCode();
     }
